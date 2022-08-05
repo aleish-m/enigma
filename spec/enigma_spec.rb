@@ -49,6 +49,12 @@ describe Enigma do
     #   expect(@enigma.incoming('hello world', '02715', '040895')).to eq expected_hash
     # end
 
+    it 'creates shift values from the key' do
+      @enigma.incoming('hello world', '02715', '040895')
+
+      expect(@enigma.key_shift).to eq({A: 02, B: 27, C: 71, D: 15})
+    end
+
     xit 'encrypts text' do
       expected_hash = {
         encryption: 'keder ohulw',
