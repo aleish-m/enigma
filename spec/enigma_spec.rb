@@ -50,7 +50,7 @@ describe Enigma do
     # end
 
     it 'creates shift values from the key' do
-      @enigma.incoming('hello world', '02715', '040895')
+      @enigma.encrypt('hello world', '02715', '040895')
 
       expect(@enigma.key_shift).to eq({A: 02, B: 27, C: 71, D: 15})
     end
