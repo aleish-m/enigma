@@ -10,6 +10,9 @@ describe Enigma do
     it 'Enigma exists' do
       expect(@enigma).to be_an_instance_of Enigma
     end
+    it 'Enigma has a list of all incodeable characters' do
+      expect(@enigma.characters).to eq ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
+    end
   end
 
   describe 'encrypt' do
