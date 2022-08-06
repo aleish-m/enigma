@@ -33,10 +33,22 @@ describe Enigma do
       expect(@enigma.key).to eq '02715'
     end
 
+    it 'has a defult key if none given for encryption' do
+      @enigma.encrypt('hello world')
+
+      expect(@enigma.key).to eq '99999'
+    end
+    
     it 'adds a date to use for encryption' do
       @enigma.encrypt('hello world', '02715', '040895')
-
+      
       expect(@enigma.date).to eq '040895'
+    end
+
+    it 'has a defult date if none given for encryption' do
+      @enigma.encrypt('hello world')
+
+      expect(@enigma.date).to eq '101099'
     end
   
     it 'creates shift values from the key' do

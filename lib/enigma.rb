@@ -9,10 +9,22 @@ class Enigma
     @date = ''
   end
 
-  def encrypt(incoming_phrase, incoming_key, incoming_date)
+  def start_encrypt(incoming_phrase, incoming_key, incoming_date)
     @message = incoming_phrase
     @key = incoming_key
     @date = incoming_date
+  end
+
+  def generated_key
+    
+  end
+
+  def generated_date
+
+  end
+
+  def encrypt(incoming_phrase, incoming_key = '99999', incoming_date = '101099')
+    start_encrypt(incoming_phrase, incoming_key, incoming_date)
     {encryption: shifted_message, date: @date, key: @key}
   end
 
