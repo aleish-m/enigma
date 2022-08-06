@@ -38,21 +38,15 @@ describe Enigma do
 
       expect(@enigma.date).to eq '040895'
     end
-    
-    # it 'creates an incoming hash and stores it' do
-    #   expected_hash = {
-    #     phrase: 'hello world',
-    #     key: '02715',
-    #     date: '040895'
-    #   }
-
-    #   expect(@enigma.incoming('hello world', '02715', '040895')).to eq expected_hash
-    # end
-
+  
     it 'creates shift values from the key' do
       @enigma.encrypt('hello world', '02715', '040895')
-
       expect(@enigma.key_shift).to eq({A: 02, B: 27, C: 71, D: 15})
+    end
+
+    it 'creates shift values from the date' do
+      @enigma.encrypt('hello world', '02715', '040895')
+      expect(@enigma.date_shift).to eq({A: 1, B: 0, C: 2, D: 5})
     end
 
     xit 'encrypts text' do
@@ -61,7 +55,6 @@ describe Enigma do
         key: '02715',
         date: '040895'
       }
-
       expect(@enigma.encrypt('hello world', '02715', '040895')).to eq expected_hash
     end
   end
