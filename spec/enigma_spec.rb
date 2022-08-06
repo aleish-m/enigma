@@ -33,10 +33,11 @@ describe Enigma do
       expect(@enigma.key).to eq '02715'
     end
 
-    it 'has a defult key if none given for encryption' do
-      @enigma.encrypt('hello world')
-
-      expect(@enigma.key).to eq '99999'
+    it 'has a creates a default key if none given for encryption' do
+      random_number = Random.new(1234).to_s
+      @enigma.encrypt('hello world', random_number)
+      allow(@enigma).to receive(:generate_key).and_return(random_number)
+      expect(@enigma.key).to eq random_number
     end
     
     it 'adds a date to use for encryption' do
@@ -45,10 +46,10 @@ describe Enigma do
       expect(@enigma.date).to eq '040895'
     end
 
-    it 'defaults todays date in ddmmyy formate if none given for encryption' do
+    it 'defaults to todays date (ddmmyy) if none given for encryption' do
       @enigma.encrypt('hello world')
 
-      allow(@enigma).to receive(:generated_date).and_return('060822')
+      allow(@enigma).to receive(:generate_date).and_return('060822')
       expect(@enigma.date).to eq '060822'
     end
   

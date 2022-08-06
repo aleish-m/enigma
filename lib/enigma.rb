@@ -15,15 +15,15 @@ class Enigma
     @date = incoming_date
   end
 
-  def generated_key
-    '99999'
+  def generate_key
+   rand.to_s[2..6]
   end
 
-  def generated_date
+  def generate_date
     Date.today.strftime('%d%m%y')
   end
 
-  def encrypt(incoming_phrase, incoming_key = generated_key, incoming_date = generated_date)
+  def encrypt(incoming_phrase, incoming_key = generate_key, incoming_date = generate_date)
     start_encrypt(incoming_phrase, incoming_key, incoming_date)
     { encryption: encrypt_message, date: @date, key: @key }
   end
