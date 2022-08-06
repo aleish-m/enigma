@@ -54,6 +54,11 @@ describe Enigma do
       expect(@enigma.total_shift).to eq({A: 3, B: 27, C: 73, D: 20})
     end
 
+    it 'creates a shifted message' do
+      @enigma.encrypt('hello world', '02715', '040895')
+      expect(@enigma.shift_message).to eq('keder ohulw')
+    end
+
     xit 'encrypts text' do
       expected_hash = {
         encryption: 'keder ohulw',
