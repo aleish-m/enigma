@@ -20,12 +20,12 @@ class Enigma
   end
 
   def generated_date
-    Date.today.strftime("%d%m%y")
+    Date.today.strftime('%d%m%y')
   end
 
   def encrypt(incoming_phrase, incoming_key = generated_key, incoming_date = generated_date)
     start_encrypt(incoming_phrase, incoming_key, incoming_date)
-    {encryption: shifted_message, date: @date, key: @key}
+    { encryption: encrypt_message, date: @date, key: @key }
   end
 
   def key_shift
@@ -38,7 +38,7 @@ class Enigma
   end
 
   def total_shift
-    key_shift.merge(date_shift) { |offset, key_value, date_value| key_value + date_value }
+    key_shift.merge(date_shift) { |_offset, key_value, date_value| key_value + date_value }
   end
 
   def message_array
@@ -46,21 +46,19 @@ class Enigma
   end
 
   def shifting_hash
-    {0 => :A, 1 => :B, 2 => :C, 3 => :D}
+    { 0 => :A, 1 => :B, 2 => :C, 3 => :D }
   end
 
   def encrypt_index(current_index, turn)
-    encrypt_index = current_index + total_shift[shifting_hash[turn]] 
-    if encrypt_index >= @characters.count
-      encrypt_index = encrypt_index % @characters.count
-    end
+    encrypt_index = current_index + total_shift[shifting_hash[turn]]
+    encrypt_index = encrypt_index % @characters.count if encrypt_index >= @characters.count
     encrypt_index
   end
 
-  def shifted_message
+  def encrypt_message
     turn = 0
     message_array.map do |character|
-      if !@characters.include?(character) 
+      if !@characters.include?(character)
         character
       else
         current_index = @characters.find_index(character)

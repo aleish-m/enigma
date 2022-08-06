@@ -69,7 +69,7 @@ describe Enigma do
 
     it 'creates a shifted message' do
       @enigma.encrypt('hello! world', '02715', '040895')
-      expect(@enigma.shifted_message).to eq('keder! ohulw')
+      expect(@enigma.encrypt_message).to eq('keder! ohulw')
     end
 
     it 'encrypts text' do
