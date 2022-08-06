@@ -16,14 +16,14 @@ class Enigma
   end
 
   def generated_key
-    
+    '99999'
   end
 
   def generated_date
-
+    Date.today.strftime("%d%m%y")
   end
 
-  def encrypt(incoming_phrase, incoming_key = '99999', incoming_date = '101099')
+  def encrypt(incoming_phrase, incoming_key = generated_key, incoming_date = generated_date)
     start_encrypt(incoming_phrase, incoming_key, incoming_date)
     {encryption: shifted_message, date: @date, key: @key}
   end

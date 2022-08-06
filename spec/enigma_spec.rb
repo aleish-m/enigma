@@ -45,10 +45,11 @@ describe Enigma do
       expect(@enigma.date).to eq '040895'
     end
 
-    it 'has a defult date if none given for encryption' do
+    it 'defaults todays date in ddmmyy formate if none given for encryption' do
       @enigma.encrypt('hello world')
 
-      expect(@enigma.date).to eq '101099'
+      allow(@enigma).to receive(:generated_date).and_return('060822')
+      expect(@enigma.date).to eq '060822'
     end
   
     it 'creates shift values from the key' do
