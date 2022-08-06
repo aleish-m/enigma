@@ -49,6 +49,8 @@ describe Enigma do
       expect(@enigma.date_shift).to eq({A: 1, B: 0, C: 2, D: 5})
     end
 
+    
+
     xit 'encrypts text' do
       expected_hash = {
         encryption: 'keder ohulw',
