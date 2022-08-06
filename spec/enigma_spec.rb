@@ -49,7 +49,10 @@ describe Enigma do
       expect(@enigma.date_shift).to eq({A: 1, B: 0, C: 2, D: 5})
     end
 
-    
+    it 'creates total shift values' do
+      @enigma.encrypt('hello world', '02715', '040895')
+      expect(@enigma.total_shift).to eq({A: 3, B: 27, C: 73, D: 20})
+    end
 
     xit 'encrypts text' do
       expected_hash = {
