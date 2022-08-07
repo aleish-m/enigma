@@ -1,5 +1,10 @@
 require 'date'
+require_relative './readable'
+require_relative './shiftable'
+
 class Enigma
+  include Readable
+  include Shiftable
   attr_reader :characters, :message, :key, :date, :encryption
 
   def initialize
@@ -8,6 +13,16 @@ class Enigma
     @key = ''
     @date = ''
     @encryption = ''
+  end
+
+  def encrypt(incoming_phrase, incoming_key = generate_key, incoming_date = generate_date)
+    if incoming_key.length == 6 && incoming_date == generate_date
+      incoming_date = incoming_key
+      incoming_key = generate_key
+    end
+    start_encrypt(incoming_phrase, incoming_key, incoming_date)
+    @encryption = encrypt_message
+    { encryption: encrypt_message, date: @date, key: @key }
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
@@ -22,41 +37,6 @@ class Enigma
 
   def generate_date
     Date.today.strftime('%d%m%y')
-  end
-
-  def encrypt(incoming_phrase, incoming_key = generate_key, incoming_date = generate_date)
-    if incoming_key.length == 6 && incoming_date == generate_date
-      incoming_date = incoming_key
-      incoming_key = generate_key
-    end
-    start_encrypt(incoming_phrase, incoming_key, incoming_date)
-    @encryption = encrypt_message
-    { encryption: encrypt_message, date: @date, key: @key }
-  end
-
-  def encrypt_write
-    File.write('./lib/encrypt.txt', "#{encryption}, #{key}, #{date}", mode: 'a')
-  end
-
-  def key_shift
-    { A: @key[0..1].to_i, B: @key[1..2].to_i, C: @key[2..3].to_i, D: @key[3..4].to_i }
-  end
-
-  def date_shift
-    date_code = (@date.to_i**2).to_s[-4..-1]
-    { A: date_code[0].to_i, B: date_code[1].to_i, C: date_code[2].to_i, D: date_code[3].to_i }
-  end
-
-  def total_shift
-    key_shift.merge(date_shift) { |_offset, key_value, date_value| key_value + date_value }
-  end
-
-  def message_array
-    @message.chars
-  end
-
-  def shifting_hash
-    { 0 => :A, 1 => :B, 2 => :C, 3 => :D }
   end
 
   def encrypt_index(current_index, turn)
