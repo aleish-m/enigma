@@ -1,29 +1,30 @@
 module Readable
   def write(file_path, type)
     if type == 'encrypt'
-      File.write(file_path, "#{encryption}, #{key}, #{date}\n", mode: 'a')
+      File.write("#{file_path}", "#{encryption}, #{key}, #{date}\n", mode: 'a')
     elsif type == 'decrypt'
       File.write(file_path, "#{message}, #{key}, #{date}", mode: 'a')
     end
   end
 
   def status_message(file_path)
-    "Created '#{File.basename(file_path)}' with the key #{key} and the date #{date}"
+    "Created '#{File.basename("#{file_path}")}' with the key #{key} and the date #{date}"
   end
 
-  def shift_type(type, info)
-    info = info.flatten
+  def shift_type(type, message, *data)
+    require "pry"; binding.pry
+    message = message.flatten
     if type == 'encrypt'
-      encrypt(info[0], *info[1], *info[2])
+      encrypt(message[0], *data[0], *data[1])
     elsif type == 'decrypt'
-      decrypt(info[0], *info[1], *info[2])
+      decrypt(message[0], data[0], *data[1])
     end
   end
 
-  def read_message(read_file_path, write_file_path, type)
-    File.foreach(read_file_path) do |line|
+  def read_message(read_file_path, write_file_path, *data, type)
+    File.foreach("#{read_file_path}") do |line|
       working_line = line.chomp.downcase.split(', ')
-      shift_type(type, working_line)
+      shift_type(type, working_line, *data)
       write(write_file_path, type)
       puts status_message(write_file_path)
     end
