@@ -36,7 +36,6 @@ class Enigma
 
   def generate_date
     Date.today.strftime('%d%m%y')
-    # require "pry"; binding.pry
   end
 
   def encrypt_index(current_index, turn)
@@ -92,8 +91,5 @@ def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
       end
     end
     @message = dencrypt_msg.join
-    # require "pry"; binding.pry
   end
-
-
 end
