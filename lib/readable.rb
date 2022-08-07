@@ -2,7 +2,7 @@ module Readable
   
   def write(file_path, type)
     if type == 'encrypt'
-      File.write(file_path, "#{encryption}, #{key}, #{date}", mode: 'a')
+      File.write(file_path, "#{encryption}, #{key}, #{date}\n", mode: 'a')
     elsif type == 'decrypt'
       File.write(file_path, "#{message}, #{key}, #{date}", mode: 'a')
     end
@@ -12,16 +12,10 @@ module Readable
     "Created '#{File.basename(file_path)}' with the key #{key} and the date #{date}"
   end
 
-  def shift_type(type, *info)
+  def shift_type(type, info)
     info = info.flatten
     if type == 'encrypt'
-      if info.count == 3
-        encrypt(info[0], info[1], info[2])
-      elsif info.count == 2
-        encrypt(info[0], info[1])
-      elsif info.count == 1
-        encrypt(info[0])
-      end
+      encrypt(info[0], *info[1], *info[2])
     elsif type == 'decrypt'
       d
     end
@@ -29,7 +23,8 @@ module Readable
   
   def read_message(read_file_path, write_file_path, type)
     File.foreach(read_file_path) do |line|
-      working_line = line.downcase.split(', ')
+      working_line = line.chomp.downcase.split(', ')
+      # require "pry"; binding.pry
         shift_type(type, working_line)
         write(write_file_path, type)
         puts cli_message(write_file_path)
