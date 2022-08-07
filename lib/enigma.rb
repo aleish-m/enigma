@@ -9,7 +9,7 @@ class Enigma
     @message = ''
     @key = ''
     @date = ''
-    # @encryption = ''
+    @encryption = ''
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
