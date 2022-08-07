@@ -35,11 +35,9 @@ describe Enigma do
     end
 
     it 'has a creates a default key if none given for encryption' do
-      random_number = srand(1234).to_s[2..6]
-      allow(@enigma).to receive(:generate_key).and_return(random_number)
-      expect(@enigma.key).to eq(random_number)
-      # allow(@enigma).to receive(:generate_key).and_return('04567')
-      # expect(@enigma.key).to eq('04567')
+      allow(Kernel).to receive(:rand).and_return(34567)
+      enigma = Enigma.new
+      expect(enigma.key).to eq(34567)
     end
     
     it 'adds a date to use for encryption' do
