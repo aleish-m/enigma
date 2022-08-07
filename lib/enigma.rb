@@ -1,5 +1,7 @@
 require 'date'
+require_relative './readable'
 class Enigma
+  include Readable
   attr_reader :characters, :message, :key, :date, :encryption
 
   def initialize
@@ -7,7 +9,7 @@ class Enigma
     @message = ''
     @key = ''
     @date = ''
-    @encryption = ''
+    # @encryption = ''
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
@@ -34,28 +36,28 @@ class Enigma
     { encryption: encrypt_message, date: @date, key: @key }
   end
 
-  def encrypt_write(file_path)
-    File.write(file_path, "#{encryption}, #{key}, #{date}", mode: 'a')
-  end
+  # def encrypt_write(file_path)
+  #   File.write(file_path, "#{encryption}, #{key}, #{date}", mode: 'a')
+  # end
 
-  def read_message(file_path)
-    File.foreach(file_path) do |line|
-      working_line = line.downcase.split(', ')
-      if working_line.count == 3
-      encrypt(working_line[0],working_line[1], working_line[2])
-        encrypt_write('./lib/encrypt.txt')
-        puts "Created 'encrypted.txt' with the key #{key} and the date #{date}"
-      elsif working_line.count == 2
-        encrypt(working_line[0],working_line[1])
-        encrypt_write('./lib/encrypt.txt')
-        puts "Created 'encrypted.txt' with the key #{key} and the date #{date}"
-      elsif working_line.count == 1
-        encrypt(working_line[0])
-        encrypt_write('./lib/encrypt.txt')
-        puts "Created 'encrypted.txt' with the key #{key} and the date #{date}"
-      end
-    end
-  end
+  # def read_message(file_path)
+  #   File.foreach(file_path) do |line|
+  #     working_line = line.downcase.split(', ')
+  #     if working_line.count == 3
+  #     encrypt(working_line[0],working_line[1], working_line[2])
+  #       encrypt_write('./lib/encrypt.txt')
+  #       puts "Created 'encrypted.txt' with the key #{key} and the date #{date}"
+  #     elsif working_line.count == 2
+  #       encrypt(working_line[0],working_line[1])
+  #       encrypt_write('./lib/encrypt.txt')
+  #       puts "Created 'encrypted.txt' with the key #{key} and the date #{date}"
+  #     elsif working_line.count == 1
+  #       encrypt(working_line[0])
+  #       encrypt_write('./lib/encrypt.txt')
+  #       puts "Created 'encrypted.txt' with the key #{key} and the date #{date}"
+  #     end
+  #   end
+  # end
 
   def key_shift
     { A: @key[0..1].to_i, B: @key[1..2].to_i, C: @key[2..3].to_i, D: @key[3..4].to_i }
