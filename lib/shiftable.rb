@@ -16,6 +16,10 @@ module Shiftable
     @message.chars
   end
 
+  def encryption_array
+    @encryption.chars
+  end
+
   def shifting_hash
     { 0 => :A, 1 => :B, 2 => :C, 3 => :D }
   end

@@ -45,10 +45,13 @@ describe Enigma do
     end
 
     it 'defaults to todays date (ddmmyy) if none given for encryption' do
-      @enigma.encrypt('hello world')
+      enigma_1 = Enigma.new
+      enigma_1.encrypt('hello world')
 
-      allow(@enigma).to receive(:generate_date).and_return('060822')
-      expect(@enigma.date).to eq('060822')
+      allow(Date).to receive(:today).and_return(Date.parse("2022-8-06"))
+      expect(enigma_1.generate_date).to eq("060822")
+
+      # expect(@enigma.generate_date).to eq( Date.today.strftime('%d%m%y'))
     end
   
     it 'creates shift values from the key' do
@@ -64,7 +67,7 @@ describe Enigma do
     end
 
     it 'creates a shifted message' do
-      expect(@enigma.encrypt_message).to eq('keder ohulw')
+      expect(@enigma.encrypted_message).to eq('keder ohulw')
     end
 
     it 'encrypts text' do
@@ -74,6 +77,37 @@ describe Enigma do
         date: '040895'
       }
       expect(@enigma.encrypt('hello world', '02715', '040895')).to eq(expected_hash)
+    end
+  end
+
+  describe 'decrypt' do 
+    before :each do 
+      @enigma.decrypt("keder ohulw", "02715", "040895")
+    end
+
+    it 'has a encripted message' do
+      expect(@enigma.encryption).to eq("keder ohulw")
+    end
+
+    it 'has creates an encripted message array' do
+      expect(@enigma.encryption_array).to eq(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
+    end
+
+    it 'has a encripted message' do
+      expect(@enigma.encryption).to eq("keder ohulw")
+    end
+
+    it 'finds the decrypted message' do
+      expect(@enigma.dencrypted_message).to eq("hello world")
+    end
+
+    it 'makes a decryption hash' do
+      expected_hash = {
+        decryption: "hello world",
+        key: "02715",
+        date: "040895"
+      }
+      expect(@enigma.decrypt("keder ohulw", "02715", "040895")).to eq(expected_hash)
     end
   end
 end
