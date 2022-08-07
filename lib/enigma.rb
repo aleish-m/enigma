@@ -35,7 +35,7 @@ class Enigma
   end
 
   def encrypt_write
-    File.write('./lib/encrypt.txt', "\n#{encryption}, #{key}, #{date}", mode: 'a')
+    File.write('./lib/encrypt.txt', "#{encryption}, #{key}, #{date}", mode: 'a')
   end
 
   def key_shift
