@@ -36,6 +36,12 @@ class Enigma
     encrypt_index
   end
 
+  def shift_count(turn)
+    turn += 1 if turn < 4
+    turn = 0 if turn == 4
+    turn
+  end
+
   def encrypted_message
     turn = 0
     encrypt_msg = message_array.map do |character|
@@ -44,8 +50,7 @@ class Enigma
       else
         current_index = @characters.find_index(character)
         new_character = @characters[encrypt_index(current_index, turn)]
-        turn += 1 if turn < 4
-        turn = 0 if turn == 4
+        turn = shift_count(turn)
         new_character
       end
     end
@@ -77,8 +82,7 @@ def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
       else
         current_index = @characters.find_index(character)
         new_character = @characters[dencrypt_index(current_index, turn)]
-        turn += 1 if turn < 4
-        turn = 0 if turn == 4
+        turn = shift_count(turn)
         new_character
       end
     end

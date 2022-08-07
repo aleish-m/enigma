@@ -32,4 +32,10 @@ module Shiftable
   def shifting_hash
     { 0 => :A, 1 => :B, 2 => :C, 3 => :D }
   end
+
+  def shift_count(turn)
+    turn += 1 if turn < 4
+    turn = 0 if turn == 4
+    turn
+  end
 end
