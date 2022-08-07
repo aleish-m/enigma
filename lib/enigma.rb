@@ -1,18 +1,19 @@
 require 'date'
 class Enigma
-  attr_reader :characters, :message, :key, :date
+  attr_reader :characters, :message, :key, :date, :encryption
 
   def initialize
     @characters = ('a'..'z').to_a << ' '
     @message = ''
     @key = ''
     @date = ''
+    @encryption = ''
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
-    @message = incoming_phrase
-    @key = incoming_key
-    @date = incoming_date
+      @message = incoming_phrase
+      @key = incoming_key.rjust(5)
+      @date = incoming_date.rjust(6)
   end
 
   def generate_key
@@ -24,8 +25,17 @@ class Enigma
   end
 
   def encrypt(incoming_phrase, incoming_key = generate_key, incoming_date = generate_date)
+    if incoming_key.length == 6 && incoming_date == generate_date
+      incoming_date = incoming_key
+      incoming_key = generate_key
+    end
     start_encrypt(incoming_phrase, incoming_key, incoming_date)
+    @encryption = encrypt_message
     { encryption: encrypt_message, date: @date, key: @key }
+  end
+
+  def encrypt_write
+    File.write('./lib/encrypt.txt', "\n#{encryption}, #{key}, #{date}", mode: 'a')
   end
 
   def key_shift
