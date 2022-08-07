@@ -21,14 +21,13 @@ class Enigma
       incoming_key = generate_key
     end
     start_encrypt(incoming_phrase, incoming_key, incoming_date)
-    @encryption = encrypt_message
-    { encryption: encrypt_message, date: @date, key: @key }
+    { encryption: encrypted_message, date: @date, key: @key }
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
       @message = incoming_phrase
       @key = incoming_key.rjust(5)
-      @date = incoming_date.rjust(6)
+      @date = incoming_date.ljust(6)
   end
 
   def generate_key
@@ -45,9 +44,9 @@ class Enigma
     encrypt_index
   end
 
-  def encrypt_message
+  def encrypted_message
     turn = 0
-    message_array.map do |character|
+    encrypt_msg = message_array.map do |character|
       if !@characters.include?(character)
         character
       else
@@ -57,6 +56,40 @@ class Enigma
         turn = 0 if turn == 4
         new_character
       end
-    end.join
+    end
+    @encryption = encrypt_msg.join
+  end
+
+def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
+    start_dencrypt(incoming_phrase, incoming_key, incoming_date)
+    {decryption: dencrypted_message, date: @date, key: @key }
+  end
+
+  def start_dencrypt(incoming_phrase, incoming_key, incoming_date)
+      @encryption = incoming_phrase
+      @key = incoming_key.rjust(5)
+      @date = incoming_date.ljust(6)
+  end
+
+  def dencrypt_index(current_index, turn)
+    dencrypt_index = current_index - total_shift[shifting_hash[turn]]
+    dencrypt_index = dencrypt_index % @characters.count if dencrypt_index <= @characters.count
+    dencrypt_index
+  end
+
+  def dencrypted_message
+    turn = 0
+    dencrypt_msg = encryption_array.map do |character|
+      if !@characters.include?(character)
+        character
+      else
+        current_index = @characters.find_index(character)
+        new_character = @characters[dencrypt_index(current_index, turn)]
+        turn += 1 if turn < 4
+        turn = 0 if turn == 4
+        new_character
+      end
+    end
+    @message = dencrypt_msg.join
   end
 end

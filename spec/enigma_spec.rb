@@ -21,7 +21,7 @@ describe Enigma do
     end
   end
 
-  describe 'encrypt' do
+  describe 'accepts information' do
     before :each do
       @enigma.encrypt('hello world', '02715', '040895')
     end
@@ -30,7 +30,6 @@ describe Enigma do
     end
 
     it 'adds a key to use for encryption' do
-
       expect(@enigma.key).to eq('02715')
     end
 
@@ -40,17 +39,34 @@ describe Enigma do
     end
     
     it 'adds a date to use for encryption' do
-      
       expect(@enigma.date).to eq('040895')
     end
 
     it 'defaults to todays date (ddmmyy) if none given for encryption' do
-      @enigma.encrypt('hello world')
+      enigma_1 = Enigma.new
+      enigma_1.encrypt('hello world')
 
-      allow(@enigma).to receive(:generate_date).and_return('060822')
-      expect(@enigma.date).to eq('060822')
+      allow(Date).to receive(:today).and_return(Date.parse("2022-8-06"))
+      expect(enigma_1.generate_date).to eq("060822")
     end
-  
+
+    it 'can recive only message and date and creates a key' do
+      enigma_1 = Enigma.new
+      enigma_1.encrypt('hello world', '040895')
+
+      allow(enigma_1).to receive(:key).and_return('12345')
+      expect(enigma_1.date).to eq('040895')
+      expect(enigma_1.key).to eq('12345')
+
+    end
+
+  end
+
+  describe 'it has shifts' do 
+    before :each do
+      @enigma.encrypt('hello world', '02715', '040895')
+    end
+
     it 'creates shift values from the key' do
       expect(@enigma.key_shift).to eq({A: 02, B: 27, C: 71, D: 15})
     end
@@ -62,18 +78,59 @@ describe Enigma do
     it 'creates total shift values' do
       expect(@enigma.total_shift).to eq({A: 3, B: 27, C: 73, D: 20})
     end
+  end
+
+  describe 'it encripts message' do 
+    before :each do
+      @enigma.encrypt('hello world!', '02715', '040895')
+    end
+    
+    it 'has creates a message array' do
+      expect(@enigma.message_array).to eq(["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!"])
+    end
 
     it 'creates a shifted message' do
-      expect(@enigma.encrypt_message).to eq('keder ohulw')
+      expect(@enigma.encrypted_message).to eq('keder ohulw!')
     end
 
     it 'encrypts text' do
       expected_hash = {
-        encryption: 'keder ohulw',
+        encryption: 'keder ohulw!',
         key: '02715',
         date: '040895'
       }
-      expect(@enigma.encrypt('hello world', '02715', '040895')).to eq(expected_hash)
+      expect(@enigma.encrypt('hello world!', '02715', '040895')).to eq(expected_hash)
+    end
+  end
+
+  describe 'decrypt' do 
+    before :each do 
+      @enigma.decrypt("keder ohulw", "02715", "040895")
+    end
+
+    it 'has a encripted message' do
+      expect(@enigma.encryption).to eq("keder ohulw")
+    end
+
+    it 'has creates an encripted message array' do
+      expect(@enigma.encryption_array).to eq(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
+    end
+
+    it 'has a encripted message' do
+      expect(@enigma.encryption).to eq("keder ohulw")
+    end
+
+    it 'finds the decrypted message' do
+      expect(@enigma.dencrypted_message).to eq("hello world")
+    end
+
+    it 'makes a decryption hash' do
+      expected_hash = {
+        decryption: "hello world!",
+        key: "02715",
+        date: "040895"
+      }
+      expect(@enigma.decrypt("keder ohulw!", "02715", "040895")).to eq(expected_hash)
     end
   end
 end
