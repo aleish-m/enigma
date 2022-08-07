@@ -8,21 +8,20 @@ module Readable
   end
 
   def status_message(file_path)
-    "Created '#{File.basename("./lib/#{file_path}")}' with the key #{key} and the date #{date}"
+    "Created '#{file_path}' with the key #{key} and the date #{date}"
   end
 
   def shift_type(type, message, *data)
-    message = message.flatten
     if type == 'encrypt'
-      encrypt(message[0], *data[0], *data[1])
+      encrypt(message, *data[0], *data[1])
     elsif type == 'decrypt'
-      decrypt(message[0], data[0], *data[1])
+      decrypt(message, data[0], *data[1])
     end
   end
 
   def read_message(read_file_path, write_file_path, *data, type)
     File.foreach("./lib/#{read_file_path}") do |line|
-      working_line = line.chomp.downcase.split(', ')
+      working_line = line.chomp.downcase
       shift_type(type, working_line, *data)
       write(write_file_path, type)
       puts status_message(write_file_path)
