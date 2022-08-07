@@ -30,14 +30,6 @@ class Enigma
       @date = incoming_date.ljust(6)
   end
 
-  def generate_key
-   rand.to_s[2..6]
-  end
-
-  def generate_date
-    Date.today.strftime('%d%m%y')
-  end
-
   def encrypt_index(current_index, turn)
     encrypt_index = current_index + total_shift[shifting_hash[turn]]
     encrypt_index = encrypt_index % @characters.count if encrypt_index >= @characters.count
