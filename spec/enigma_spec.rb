@@ -132,5 +132,15 @@ describe Enigma do
       }
       expect(@enigma.decrypt("keder ohulw!", "02715", "040895")).to eq(expected_hash)
     end
+
+    it 'makes a decrypts even if no date is provided' do
+      allow(Date).to receive(:today).and_return(Date.parse("2022-8-08"))
+      expected_hash = {
+        decryption: "hello world!",
+        key: "02715",
+        date: "080822"
+      }
+      expect(@enigma.decrypt("okjdvfugyrb!", "02715")).to eq(expected_hash)
+    end
   end
 end
