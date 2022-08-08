@@ -20,11 +20,10 @@ module Readable
   end
 
   def read_message(read_file_path, write_file_path, *data, type)
-    File.foreach("./lib/#{read_file_path}") do |line|
-      working_line = line.chomp.downcase
-      shift_type(type, working_line, *data)
-      write(write_file_path, type)
-      puts status_message(write_file_path)
-    end
+    file = File.read("./lib/#{read_file_path}").downcase
+    shift_type(type, file, *data)
+    write(write_file_path, type)
+    puts status_message(write_file_path)
+    
   end
 end
