@@ -101,6 +101,17 @@ describe Enigma do
       }
       expect(@enigma.encrypt('hello world!', '02715', '040895')).to eq(expected_hash)
     end
+
+    it 'encrypts text when no date or key are provided' do
+      allow(Date).to receive(:today).and_return(Date.parse("2022-8-08"))
+      allow(@enigma).to receive(:rand).and_return(0.7891011)
+      expected_hash = {
+        encryption: 'jsczqnnbtzv!',
+        key: '78910',
+        date: '080822'
+      }
+      expect(@enigma.encrypt('hello world!')).to eq(expected_hash)
+    end
   end
 
   describe 'decrypt' do 
