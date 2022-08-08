@@ -38,4 +38,26 @@ module Shiftable
     turn = 0 if turn == 4
     turn
   end
+
+  def new_character(current_index, turn, type)
+    if type == 'encrypt'
+      @characters[encrypt_index(current_index, turn)]
+    elsif type == 'decrypt'
+      @characters[dencrypt_index(current_index, turn)]
+    end
+  end
+
+  def shift_message(array, type)
+    turn = 3
+    dencrypt_msg = array.map do |character|
+      turn = shift_count(turn)
+      if !@characters.include?(character)
+        character
+      else
+        current_index = @characters.find_index(character)
+        new_character(current_index, turn, type)
+      end
+    end
+  end
+  
 end

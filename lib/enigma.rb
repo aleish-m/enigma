@@ -25,9 +25,9 @@ class Enigma
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
-      @message = incoming_phrase
-      @key = incoming_key.rjust(5)
-      @date = incoming_date.ljust(6)
+    @message = incoming_phrase
+    @key = incoming_key.rjust(5)
+    @date = incoming_date.ljust(6)
   end
 
   def encrypt_index(current_index, turn)
@@ -36,36 +36,20 @@ class Enigma
     encrypt_index
   end
 
-  def shift_count(turn)
-    turn += 1 if turn < 4
-    turn = 0 if turn == 4
-    turn
-  end
-
   def encrypted_message
-    turn = 0
-    encrypt_msg = message_array.map do |character|
-      if !@characters.include?(character)
-        character
-      else
-        current_index = @characters.find_index(character)
-        new_character = @characters[encrypt_index(current_index, turn)]
-        turn = shift_count(turn)
-        new_character
-      end
-    end
+    encrypt_msg = shift_message(message_array, 'encrypt')
     @encryption = encrypt_msg.join
   end
 
-def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
+  def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
     start_dencrypt(incoming_phrase, incoming_key, incoming_date)
     {decryption: dencrypted_message, date: @date, key: @key }
   end
 
   def start_dencrypt(incoming_phrase, incoming_key, incoming_date)
-      @encryption = incoming_phrase
-      @key = incoming_key.rjust(5)
-      @date = incoming_date.ljust(6)
+    @encryption = incoming_phrase
+    @key = incoming_key.rjust(5)
+    @date = incoming_date.ljust(6)
   end
 
   def dencrypt_index(current_index, turn)
@@ -75,17 +59,7 @@ def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
   end
 
   def dencrypted_message
-    turn = 0
-    dencrypt_msg = encryption_array.map do |character|
-      if !@characters.include?(character)
-        character
-      else
-        current_index = @characters.find_index(character)
-        new_character = @characters[dencrypt_index(current_index, turn)]
-        turn = shift_count(turn)
-        new_character
-      end
-    end
+    dencrypt_msg = shift_message(encryption_array, 'decrypt')
     @message = dencrypt_msg.join
   end
 end
