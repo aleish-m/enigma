@@ -27,7 +27,7 @@ module Shiftable
 
   def create_shifted_message(array, type)
     turn = 3
-    dencrypt_msg = array.map do |character|
+    array.map do |character|
       turn = shift_count(turn)
       if !@characters.include?(character)
         character
