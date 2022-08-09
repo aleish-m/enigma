@@ -17,7 +17,7 @@ module Shiftable
     { A: date_code[0].to_i, B: date_code[1].to_i, C: date_code[2].to_i, D: date_code[3].to_i }
   end
 
-  def total_shift
+  def total_shift_value
     key_shift.merge(date_shift) { |offset, key_value, date_value| key_value + date_value }
   end
 
@@ -61,13 +61,13 @@ module Shiftable
   end
 
   def encrypt_index(current_index, turn)
-    encrypt_index = current_index + total_shift[shifting_hash[turn]]
+    encrypt_index = current_index + total_shift_value[shifting_hash[turn]]
     encrypt_index = encrypt_index % @characters.count if encrypt_index >= @characters.count
     encrypt_index
   end
 
   def dencrypt_index(current_index, turn)
-    dencrypt_index = current_index - total_shift[shifting_hash[turn]]
+    dencrypt_index = current_index - total_shift_value[shifting_hash[turn]]
     dencrypt_index = dencrypt_index % @characters.count if dencrypt_index <= @characters.count
     dencrypt_index
   end

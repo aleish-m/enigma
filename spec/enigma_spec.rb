@@ -76,7 +76,7 @@ describe Enigma do
     end
 
     it 'creates total shift values' do
-      expect(@enigma.total_shift).to eq({A: 3, B: 27, C: 73, D: 20})
+      expect(@enigma.total_shift_value).to eq({A: 3, B: 27, C: 73, D: 20})
     end
   end
 
