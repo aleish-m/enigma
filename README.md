@@ -7,7 +7,7 @@
 - Work with file i/o
 
 ## Overview
-In this project I used Ruby to build a tool for encrypting text and decrypting text using an encryption algorithm. I had to make sure I understood the Encryption Algorithm and plan out what classes and modules I needed to complete the project and keep it orginized.
+In this project, I used Ruby to build a tool for encrypting text and decrypting text using an encryption algorithm. I had to ensure I understood the Encryption Algorithm and plan out what classes and modules I needed to complete the project and keep it organized.
 
 ### File Structure 
 - **Enigma**
