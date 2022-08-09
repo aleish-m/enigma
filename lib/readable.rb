@@ -20,7 +20,7 @@ module Readable
     end
   end
 
-  def read_message(read_file_path, write_file_path, *data, type)
+  def read_user_input(read_file_path, write_file_path, *data, type)
     file = File.read("./lib/#{read_file_path}").downcase
     shift_type(type, file, *data)
     write(write_file_path, type)
