@@ -1,10 +1,13 @@
 require 'date'
 require_relative './readable'
 require_relative './shiftable'
+require_relative './calculatable'
 
 class Enigma
   include Readable
   include Shiftable
+  include Calculatable
+  
   attr_reader :characters, :message, :key, :date, :encryption
 
   def initialize
@@ -21,7 +24,7 @@ class Enigma
       incoming_key = generate_key
     end
     start_encrypt(incoming_phrase, incoming_key, incoming_date)
-    {encryption: encrypted_message, date: @date, key: @key }
+    { encryption: encrypted_message, date: @date, key: @key }
   end
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
@@ -37,7 +40,7 @@ class Enigma
 
   def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
     start_dencrypt(incoming_phrase, incoming_key, incoming_date)
-    {decryption: dencrypted_message, date: @date, key: @key }
+    { decryption: dencrypted_message, date: @date, key: @key }
   end
 
   def start_dencrypt(incoming_phrase, incoming_key, incoming_date)
