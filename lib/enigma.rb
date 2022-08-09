@@ -18,6 +18,7 @@ class Enigma
     @encryption = ''
   end
 
+  
   def encrypt(incoming_phrase, incoming_key = generate_key, incoming_date = generate_date)
     if incoming_key.length == 6 && incoming_date == generate_date
       incoming_date = incoming_key
