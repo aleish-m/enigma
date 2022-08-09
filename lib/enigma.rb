@@ -42,8 +42,8 @@ class Enigma
 
   def start_dencrypt(incoming_phrase, incoming_key, incoming_date)
     @encryption = incoming_phrase
-    @key = incoming_key.rjust(5)
-    @date = incoming_date.ljust(6)
+    @key = incoming_key.rjust(5, '0')[0..4]
+    @date = incoming_date.ljust(6, '0')
   end
 
   def dencrypted_message
