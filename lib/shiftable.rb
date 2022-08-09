@@ -59,5 +59,17 @@ module Shiftable
       end
     end
   end
+
+  def encrypt_index(current_index, turn)
+    encrypt_index = current_index + total_shift[shifting_hash[turn]]
+    encrypt_index = encrypt_index % @characters.count if encrypt_index >= @characters.count
+    encrypt_index
+  end
+
+  def dencrypt_index(current_index, turn)
+    dencrypt_index = current_index - total_shift[shifting_hash[turn]]
+    dencrypt_index = dencrypt_index % @characters.count if dencrypt_index <= @characters.count
+    dencrypt_index
+  end
   
 end
