@@ -1,4 +1,5 @@
 module Readable
+  
   def write(file_path, type)
     if type == 'encrypt'
       File.write("./lib/#{file_path}", "#{encryption}\n", mode: 'a')
@@ -24,6 +25,5 @@ module Readable
     shift_type(type, file, *data)
     write(write_file_path, type)
     puts status_message(write_file_path)
-    
   end
 end

@@ -1,10 +1,13 @@
 require 'date'
 require_relative './readable'
 require_relative './shiftable'
+require_relative './calculatable'
 
 class Enigma
   include Readable
   include Shiftable
+  include Calculatable
+  
   attr_reader :characters, :message, :key, :date, :encryption
 
   def initialize
@@ -30,20 +33,14 @@ class Enigma
     @date = incoming_date.ljust(6)
   end
 
-  def encrypt_index(current_index, turn)
-    encrypt_index = current_index + total_shift[shifting_hash[turn]]
-    encrypt_index = encrypt_index % @characters.count if encrypt_index >= @characters.count
-    encrypt_index
-  end
-
   def encrypted_message
-    encrypt_msg = shift_message(message_array, 'encrypt')
+    encrypt_msg = create_shifted_message(message_array, 'encrypt')
     @encryption = encrypt_msg.join
   end
 
   def decrypt(incoming_phrase, incoming_key, incoming_date = generate_date)
     start_dencrypt(incoming_phrase, incoming_key, incoming_date)
-    {decryption: dencrypted_message, date: @date, key: @key }
+    { decryption: dencrypted_message, date: @date, key: @key }
   end
 
   def start_dencrypt(incoming_phrase, incoming_key, incoming_date)
@@ -52,14 +49,8 @@ class Enigma
     @date = incoming_date.ljust(6, '0')
   end
 
-  def dencrypt_index(current_index, turn)
-    dencrypt_index = current_index - total_shift[shifting_hash[turn]]
-    dencrypt_index = dencrypt_index % @characters.count if dencrypt_index <= @characters.count
-    dencrypt_index
-  end
-
   def dencrypted_message
-    dencrypt_msg = shift_message(encryption_array, 'decrypt')
+    dencrypt_msg = create_shifted_message(encryption_array, 'decrypt')
     @message = dencrypt_msg.join
   end
 end
