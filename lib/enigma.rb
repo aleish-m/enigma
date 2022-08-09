@@ -30,8 +30,8 @@ class Enigma
 
   def start_encrypt(incoming_phrase, incoming_key, incoming_date)
     @message = incoming_phrase
-    @key = incoming_key.rjust(5)
-    @date = incoming_date.ljust(6)
+    @key = incoming_key.rjust(5, '0')[0..4]
+    @date = incoming_date.ljust(6, '0')
   end
 
   def encrypted_message

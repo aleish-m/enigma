@@ -1,5 +1,12 @@
 module Readable
   
+  def read_user_input(read_file_path, write_file_path, *data, type)
+    file = File.read("./lib/#{read_file_path}").downcase
+    shift_type(type, file, *data)
+    write(write_file_path, type)
+    puts status_message(write_file_path)
+  end
+  
   def write(file_path, type)
     if type == 'encrypt'
       File.write("./lib/#{file_path}", "#{encryption}\n", mode: 'a')
@@ -18,12 +25,5 @@ module Readable
     elsif type == 'decrypt'
       decrypt(message, data[0], *data[1])
     end
-  end
-
-  def read_user_input(read_file_path, write_file_path, *data, type)
-    file = File.read("./lib/#{read_file_path}").downcase
-    shift_type(type, file, *data)
-    write(write_file_path, type)
-    puts status_message(write_file_path)
   end
 end
