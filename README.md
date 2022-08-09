@@ -34,7 +34,7 @@ ___
 
 ## Functionality 
 ---
-[x] Enigma Class with `encrypt` and `decrypt` methods successfully implemented. Encrypt/decrypt command line interfaces successfully implemented
+- [x] Enigma Class with `encrypt` and `decrypt` methods successfully implemented. Encrypt/decrypt command line interfaces successfully implemented
 - I successfully implemented both the encrypt and decrypt methods and the command line interface.
 
 ## Object Oriented Programming
