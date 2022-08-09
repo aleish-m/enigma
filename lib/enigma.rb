@@ -31,7 +31,7 @@ class Enigma
   end
 
   def encrypted_message
-    encrypt_msg = shift_message(message_array, 'encrypt')
+    encrypt_msg = create_shifted_message(message_array, 'encrypt')
     @encryption = encrypt_msg.join
   end
 
@@ -47,7 +47,7 @@ class Enigma
   end
 
   def dencrypted_message
-    dencrypt_msg = shift_message(encryption_array, 'decrypt')
+    dencrypt_msg = create_shifted_message(encryption_array, 'decrypt')
     @message = dencrypt_msg.join
   end
 end
