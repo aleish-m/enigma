@@ -154,4 +154,30 @@ describe Enigma do
       expect(@enigma.decrypt("okjdvfugyrb!", "02715")).to eq(expected_hash)
     end
   end
+
+  describe 'Command Line Interface Helpers' do
+    it 'shift_type - encrypt' do
+      expected_hash = {
+        encryption: 'keder ohulw',
+        key: '02715',
+        date: '040895'
+      }
+      expect(@enigma.shift_type('encrypt', 'hello world', '02715', '040895' )).to eq (expected_hash)
+    end
+
+    it 'shift_type - decrypt' do
+      expected_hash = {
+        decryption: "hello world!",
+        key: "02715",
+        date: "040895"
+      }
+      expect(@enigma.shift_type('decrypt', "keder ohulw!", "02715", "040895")).to eq (expected_hash)
+    end
+
+    it 'Command line provides feeadback to User' do
+      allow(@enigma).to receive(:date).and_return('040822')
+      allow(@enigma).to receive(:key).and_return('12345')
+      expect(@enigma.status_message('encrypted.txt')).to eq("Created 'encrypted.txt' with the key 12345 and the date 040822")
+    end
+  end
 end
